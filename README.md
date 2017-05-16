@@ -7,7 +7,7 @@ To put this onto your own BBC Microbit, please copy and paste the following code
 If the folder for the Microbit doesn't show up, try using a different cable.
 
 ```
-"""Microbit Watch v2"""
+"""Microbit Watch v2.1"""
 
 from microbit import *
 
@@ -91,6 +91,9 @@ def paint():
             display.show(Image(convert()))
 
         elif accelerometer.current_gesture() == "face down":
+            while accelerometer.current_gesture() == "face down":
+                display.show(Image(logos["dots3"]))
+            
             return None
 
         else:
@@ -101,10 +104,12 @@ def paint():
 
 
 def timer():
-    seconds = 0
+    seconds = 1
 
     while accelerometer.current_gesture() == "face down":
         display.show(Image(logos["dots3"]))
+        
+    display.show(Image("90000:00000:00000:00000:00000"))
 
     while True:
         seconds += 1
@@ -121,7 +126,12 @@ def timer():
                     return None
 
         elif accelerometer.current_gesture() == "face down":
+            while accelerometer.current_gesture() == "face down":
+                display.show(Image(logos["dots3"]))
+            
             return None
+                
+                
 
         display.show( Image( ":".join( [ binary_form[ i:i+5 ] for i in range( 0, len( binary_form ), 5 ) ] ) ) )
         sleep(1000)
