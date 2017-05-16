@@ -232,6 +232,7 @@ This is the second item in the navigation, and upon opening a `9` will appear (t
 ### Ideas
 This section of the document is to house new ideas for the watch.
 
-- A [Conway's Game Of Life simulator](https://en.m.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+- A [Conway's Game Of Life simulator](https://en.m.wikipedia.org/wiki/Conway%27s_Game_of_Life).
 - A dungeon explorer.
+    - Create many 5x5 preset dungeons and then patch them together randomly. Use the accelerometer to navigate backwards and forwards and left and right. The goal is to collect as many coins as possible in a preset time limit.
 - A gravity game, where you have to catch falling objects.
