@@ -1,3 +1,5 @@
+"""Microbit Watch v2"""
+
 from microbit import *
 
 logos = {
@@ -80,10 +82,16 @@ def paint():
             display.show(Image(convert()))
 
         elif accelerometer.current_gesture() == "face down":
+            while accelerometer.current_gesture() == "face down":
+                display.show(Image(logos["dots3"]))
+            
             return None
 
         else:
-            display.show(Image(convert(True)))
+            converted = convert(True)
+
+            display.show(Image(converted))
+
 
 
 def timer():
@@ -92,18 +100,7 @@ def timer():
     while accelerometer.current_gesture() == "face down":
         display.show(Image(logos["dots3"]))
         
-    display.show(Image("99900:99900:99900:00000:00000"))
-    sleep(500)
-    
-    display.show(Image("99990:99990:99990:99990:00000"))
-    sleep(500)
-    
-    display.show(Image("99999:99999:99999:99999:99999"))
-    sleep(500)
-        
     display.show(Image("90000:00000:00000:00000:00000"))
-    
-    sleep(1000)
 
     while True:
         seconds += 1
@@ -114,20 +111,21 @@ def timer():
             break
 
         elif button_a.is_pressed():
-            break
+            while True:
+                if button_a.is_pressed():
+                    sleep(5000)
+                    return None
 
         elif accelerometer.current_gesture() == "face down":
-            return None
+            while accelerometer.current_gesture() == "face down":
+                display.show(Image(logos["dots3"]))
             
+            return None
+                
+                
 
-        display.show( Image("90000:00000:00000:00000:00000") )
-        
         display.show( Image( ":".join( [ binary_form[ i:i+5 ] for i in range( 0, len( binary_form ), 5 ) ] ) ) )
         sleep(1000)
-        
-    while True:
-        if button_a.is_pressed():
-            return None
 
 def gofl():
     while accelerometer.current_gesture() == "face down":
@@ -137,9 +135,45 @@ def gofl():
 
 def dungeon():
     while accelerometer.current_gesture() == "face down":
-        display.show(Image(logos["wip"]))
-
-    sleep(1000)
+        display.show(Image(logos["dots3"]))
+    
+    def convert():
+        result = []
+        
+        for i in range(25):
+            if i == pointer:
+               result.append("9") 
+             
+            else:
+                result.append("0")
+                
+        return "".join(result)
+        
+    tick = 100
+    pointer = 0
+    
+    while True:
+        x = accelerometer.get_x()
+        y = accelerometer.get_y()
+        
+        if x > 20:
+            pointer = (pointer + 1) % 25
+        
+        elif x < -20:
+            pointer = (pointer - 1) % 25
+            
+        
+        if y > 20:
+            pointer = (pointer + 5) % 25
+        
+        elif y < -20:
+            pointer = (pointer - 5) % 25
+            
+        display.show(Image(convert()))
+        
+        sleep(tick)
+        
+        
 
 
 def home():
@@ -181,11 +215,7 @@ def home():
 
             while button_b.is_pressed():
                 position
-                
-        elif accelerometer.was_gesture("shake"):
-            while True:
-                display.show(Image("00000:00000:00000:00000:00000"))
-            
+
         elif accelerometer.current_gesture() == "face down":
             if curr_page == colon("".join(page[0:5])):
                 paint()
